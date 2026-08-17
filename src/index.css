@@ -1,0 +1,394 @@
+@import "tailwindcss";
+
+@theme {
+  --font-body: "Vazirmatn", Tahoma, sans-serif;
+  --font-latin: "Space Grotesk", "Vazirmatn", sans-serif;
+
+  /* ————— official brand identity (مرکز نشاسته ایران) —————
+     Extracted from the supplied logo & brand collateral:
+     deep navy #123A63 (droplet + molecule + wordmark) and
+     wheat gold #D2A22C (wheat ear + «نشاسته»). */
+  --color-charcoal: #0b2340;   /* deepest navy — dark section background */
+  --color-graphite: #12304f;   /* mid navy — cards on dark */
+  --color-graphite2: #1a3d62;
+  --color-brand: #123a63;      /* primary navy — logo navy */
+  --color-brand2: #0d2b4a;     /* darker navy — hover / active */
+  --color-accent: #d2a22c;     /* wheat gold — accent */
+  --color-accent2: #e3b54a;    /* lighter gold — hover */
+  --color-paper: #f4f6f8;      /* light neutral background */
+  --color-surface: #ffffff;
+  --color-ink2: #10233a;       /* primary text */
+  --color-sec: #5c6875;        /* secondary text */
+  --color-line: #dfe4ea;       /* borders */
+  --color-ok: #2f7654;
+  --color-warn: #b8862b;
+  --color-err: #c0392b;        /* validation / error only */
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 96px;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-paper);
+  color: var(--color-ink2);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--color-brand);
+  color: #fff;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-brand);
+}
+
+.latin {
+  font-family: var(--font-latin);
+  letter-spacing: 0.02em;
+}
+
+/* ————— scroll reveal ————— */
+.reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition:
+    opacity 0.65s ease,
+    transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal.in {
+  opacity: 1;
+  transform: none;
+}
+
+/* ————— textures ————— */
+.noise-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.grid-lines {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+.grid-lines-dark {
+  background-image:
+    linear-gradient(rgba(23, 25, 28, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(23, 25, 28, 0.05) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+/* unified brand image treatment — natural, slightly cooled to sit with the navy/gold identity */
+.img-grade {
+  filter: saturate(0.92) contrast(1.06) brightness(0.97);
+}
+
+/* ————— forms ————— */
+.field {
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid var(--color-line);
+  background: var(--color-surface);
+  padding: 0.72rem 0.95rem;
+  font-size: 0.9rem;
+  color: var(--color-ink2);
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+.field::placeholder {
+  color: #a3a19c;
+}
+.field:focus {
+  outline: none;
+  border-color: var(--color-brand);
+  box-shadow: 0 0 0 3px rgba(18, 58, 99, 0.14);
+}
+.field.err {
+  border-color: var(--color-err);
+  box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.14);
+}
+
+select.field {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2362666b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: left 0.9rem center;
+  padding-left: 2.4rem;
+}
+
+/* ————— animations ————— */
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+.animate-marquee {
+  animation: marquee 34s linear infinite;
+}
+.pause-hover:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes floaty {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+.animate-floaty {
+  animation: floaty 6s ease-in-out infinite;
+}
+.animate-floaty-late {
+  animation: floaty 7s ease-in-out 1.4s infinite;
+}
+
+@keyframes pulsedot {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.35;
+    transform: scale(0.72);
+  }
+}
+.animate-pulsedot {
+  animation: pulsedot 2s ease-in-out infinite;
+}
+
+@keyframes fadeup {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.fade-up {
+  animation: fadeup 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes modalin {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.modal-in {
+  animation: modalin 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.draw-circle {
+  stroke-dasharray: 166;
+  stroke-dashoffset: 166;
+  animation: draw 0.7s ease-out forwards;
+}
+.draw-check {
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  animation: draw 0.45s ease-out 0.55s forwards;
+}
+
+/* placeholder stat (awaiting final confirmation) */
+.stat-placeholder {
+  border: 1.5px dashed rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  padding-inline: 0.6rem;
+}
+
+/* ————————————————— PDF REPORT (A4) ————————————————— */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 11mm;
+  }
+  html,
+  body {
+    background: #fff !important;
+  }
+  .no-print,
+  .noise-layer {
+    display: none !important;
+  }
+  .sheet-print {
+    box-shadow: none !important;
+    border: 0 !important;
+    page-break-after: always;
+    break-after: page;
+  }
+  .sheet-print:last-of-type {
+    page-break-after: auto;
+    break-after: auto;
+  }
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}
+
+/* ————————————————— UX REPORT (print / A4) ————————————————— */
+@media print {
+  @page {
+    size: A4;
+    margin: 12mm;
+  }
+  body {
+    background: #fff !important;
+  }
+  .no-print,
+  .noise-layer {
+    display: none !important;
+  }
+  .report-page {
+    box-shadow: none !important;
+    border: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    break-after: page;
+    page-break-after: always;
+  }
+  .report-page:last-of-type {
+    break-after: auto;
+    page-break-after: auto;
+  }
+}
+
+/* ————————————————— WIREFRAME MODE ————————————————— */
+.wf-sheet {
+  background: #ffffff;
+  color: #4a4e54;
+}
+.wf-sec {
+  border-bottom: 1px solid #d8dbde;
+}
+.wf-head {
+  background: #fbf4f5;
+  border-bottom: 1px solid #ecd6d9;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 16px;
+}
+.wf-badge {
+  background: #7a2028;
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 3px;
+  letter-spacing: 0.05em;
+}
+.wf-title {
+  color: #7a2028;
+  font-size: 11.5px;
+  font-weight: 700;
+}
+.wf-note {
+  color: #8b9096;
+  font-size: 10.5px;
+}
+.wf-body {
+  background: #efeff0;
+}
+.wf-box {
+  background: #e9eaec;
+}
+.wf-line {
+  border: 1px solid #c9cdd2;
+}
+.wf-dash {
+  border: 1.5px dashed #b6bbc1;
+}
+.wf-bar {
+  background: #d3d6da;
+  border-radius: 2px;
+  display: block;
+}
+.wf-bar2 {
+  background: #e2e4e7;
+  border-radius: 2px;
+  display: block;
+}
+.wf-btn {
+  background: #41454a;
+  color: #ffffff;
+}
+.wf-btn2 {
+  background: #7a2028;
+  color: #ffffff;
+}
+.wf-btn3 {
+  background: #ffffff;
+  color: #6b7076;
+  border: 1px solid #c9cdd2;
+}
+.wf-field {
+  background: #ffffff;
+  border: 1px solid #c9cdd2;
+  border-radius: 4px;
+}
+.wf-icon {
+  background: #e4e6e9;
+  border: 1px solid #cfd3d8;
+  border-radius: 3px;
+  display: grid;
+  place-items: center;
+  color: #a8adb3;
+  font-size: 9px;
+}
+.wf-table-h {
+  background: #eceef0;
+  color: #7b8086;
+  font-size: 10.5px;
+  font-weight: 700;
+}
+.wf-trow {
+  border-bottom: 1px solid #e5e7ea;
+}
+.wf-cover {
+  background: #17191c;
+  color: #f7f5f1;
+}
+
+/* subtle scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-paper);
+}
+::-webkit-scrollbar-thumb {
+  background: #c9c6c0;
+  border-radius: 8px;
+  border: 2px solid var(--color-paper);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-brand);
+}
